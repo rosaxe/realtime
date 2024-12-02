@@ -7,7 +7,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libiwinfo
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=$(PROJECT_GIT)/project/iwinfo.git
@@ -16,8 +16,6 @@ PKG_SOURCE_VERSION:=b94f066e3f5839b8509483cdd8f4f582a45fa233
 PKG_MIRROR_HASH:=ee0bce167707fe78f68a951b7ee1e0e61a92cae281e0e24eb709857ae849777e
 PKG_MAINTAINER:=Jo-Philipp Wich <jo@mein.io>
 PKG_LICENSE:=GPL-2.0
-
-PKG_BUILD_FLAGS:=no-lto
 
 IWINFO_ABI_VERSION:=20230701
 
@@ -76,7 +74,10 @@ endef
 TARGET_CFLAGS += \
 	-I$(STAGING_DIR)/usr/include/libnl-tiny \
 	-I$(STAGING_DIR)/usr/include \
-	-D_GNU_SOURCE
+	-D_GNU_SOURCE \
+	$(FPIC)
+TARGET_LDFLAGS += \
+	$(FPIC)
 
 MAKE_FLAGS += \
 	FPIC="$(FPIC)" \

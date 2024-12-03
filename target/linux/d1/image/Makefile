@@ -63,6 +63,10 @@ define Device/lichee_rv_dock
   DEVICE_VENDOR := Sipeed
   DEVICE_MODEL := LicheePi RV (dock)
   DEVICE_DTS := allwinner/sun20i-d1-lichee-rv-dock
+  SUPPORTED_DEVICES := \
+	sipeed,lichee-rv-dock \
+	sipeed,lichee-rv \
+	allwinner,sun20i-d1
   DEVICE_PACKAGES += kmod-rtl8723bs
   UBOOT := lichee_rv_dock
 endef

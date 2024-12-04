@@ -1,0 +1,29 @@
+From afa221e20a9915440d7b5e4b01f43dfbf3047101 Mon Sep 17 00:00:00 2001
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 24 Apr 2023 18:32:45 +0100
+Subject: [PATCH 615/699] drm/vc4: Limit max_bpc to 8 on Pi0-3
+
+Pi 0-3 have no deep colour support and only 24bpp output,
+so max_bpc should remain as 8.
+
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -657,6 +657,13 @@ static int vc4_hdmi_connector_init(struc
+ 	connector->doublescan_allowed = 0;
+ 	connector->stereo_allowed = 1;
+ 
++	if (vc4_hdmi->variant->supports_hdr) {
++		drm_connector_attach_max_bpc_property(connector, 8, 12);
++		drm_connector_attach_hdr_output_metadata_property(connector);
++	} else {
++		drm_connector_attach_max_bpc_property(connector, 8, 8);
++	}
++
+ 	ret = drm_connector_attach_broadcast_rgb_property(connector);
+ 	if (ret)
+ 		return ret;

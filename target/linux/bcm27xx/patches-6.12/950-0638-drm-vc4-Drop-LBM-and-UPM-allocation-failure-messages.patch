@@ -1,0 +1,55 @@
+From 7be2ce2961640bb9ae4a878568cbb5b47be18f77 Mon Sep 17 00:00:00 2001
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 30 Sep 2024 15:01:24 +0100
+Subject: [PATCH 638/699] drm/vc4: Drop LBM and UPM allocation failure messages
+ to debug
+
+Seeing as it is userspace that creates the state and commit that
+is validated, drop the log messages to debug to avoid userspace
+being able to totally spam the kernel log.
+
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+---
+ drivers/gpu/drm/vc4/vc4_plane.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -987,7 +987,7 @@ static int vc4_plane_allocate_lbm(struct
+ 					     VC4_NUM_LBM_HANDLES,
+ 					     GFP_KERNEL);
+ 		if (lbm_handle < 0) {
+-			drm_err(drm, "Out of lbm_handles\n");
++			drm_dbg_driver(drm, "Out of lbm_handles\n");
+ 			return lbm_handle;
+ 		}
+ 		vc4_state->lbm_handle = lbm_handle;
+@@ -1004,7 +1004,8 @@ static int vc4_plane_allocate_lbm(struct
+ 		spin_unlock_irqrestore(&hvs->mm_lock, irqflags);
+ 
+ 		if (ret) {
+-			drm_err(drm, "Failed to allocate LBM entry: %d\n", ret);
++			drm_dbg_driver(drm, "Failed to allocate LBM entry: %d\n",
++				       ret);
+ 			refcount_set(&refcount->refcount, 0);
+ 			ida_free(&hvs->lbm_handles, lbm_handle);
+ 			vc4_state->lbm_handle = 0;
+@@ -1076,7 +1077,7 @@ static int vc6_plane_allocate_upm(struct
+ 						     VC4_NUM_UPM_HANDLES,
+ 						     GFP_KERNEL);
+ 			if (upm_handle < 0) {
+-				drm_err(drm, "Out of upm_handles\n");
++				drm_dbg_driver(drm, "Out of upm_handles\n");
+ 				return upm_handle;
+ 			}
+ 			vc4_state->upm_handle[i] = upm_handle;
+@@ -1092,7 +1093,8 @@ static int vc6_plane_allocate_upm(struct
+ 							 0, 0);
+ 			spin_unlock_irqrestore(&hvs->mm_lock, irqflags);
+ 			if (ret) {
+-				drm_err(drm, "Failed to allocate UPM entry: %d\n", ret);
++				drm_dbg_driver(drm, "Failed to allocate UPM entry: %d\n",
++					       ret);
+ 				refcount_set(&refcount->refcount, 0);
+ 				ida_free(&hvs->upm_handles, upm_handle);
+ 				vc4_state->upm_handle[i] = 0;

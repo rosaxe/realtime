@@ -1,0 +1,25 @@
+From a8a37c5ed875c8330a648bfa5ae0e55ec7770234 Mon Sep 17 00:00:00 2001
+From: Michiiel <94533767+Michiiel@users.noreply.github.com>
+Date: Thu, 30 May 2024 15:43:21 +0200
+Subject: [PATCH 592/699] vc4/hdmi: Fix Hsync and Vsync polarity changes
+
+Polarity bits were only ever set and never cleared.
+Make sure they can also be cleared.
+
+Signed-off-by: Michiel Vanbiervliet <michiel.vanbiervliet@gmail.com>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1626,7 +1626,8 @@ static void vc4_hdmi_encoder_post_crtc_e
+ 	spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
+ 
+ 	HDMI_WRITE(HDMI_VID_CTL,
+-		   HDMI_READ(HDMI_VID_CTL) |
++		   (HDMI_READ(HDMI_VID_CTL) &~
++		   (VC4_HD_VID_CTL_VSYNC_LOW | VC4_HD_VID_CTL_HSYNC_LOW)) |
+ 		   VC4_HD_VID_CTL_ENABLE |
+ 		   VC4_HD_VID_CTL_CLRRGB |
+ 		   VC4_HD_VID_CTL_UNDERFLOW_ENABLE |

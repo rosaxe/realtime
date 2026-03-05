@@ -2584,10 +2584,14 @@ static u32 rtpcs_930x_sds_sym_err_get(struct rtpcs_serdes *sds,
 	case RTPCS_SDS_MODE_10GBASER:
 	case RTPCS_SDS_MODE_USXGMII_10GSXGMII:
 		v = rtpcs_sds_read(sds, 0x5, 0x1);
-		return v & 0xff;
+		v &= 0xff;
+		break;
 
 	default:
-		pr_info("%s unsupported PHY-mode\n", __func__);
+		rtpcs_sds_write_bits(sds, 0x1, 24, 2, 0, 0);
+
+		v = rtpcs_sds_read_bits(sds, 0x1, 0x3, 15, 8) << 16;
+		v |= rtpcs_sds_read_bits(sds, 0x1, 0x2, 15, 0);
 	}
 
 	return v;

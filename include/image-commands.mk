@@ -827,6 +827,16 @@ define Build/uImage
 	mv $@.new $@
 endef
 
+define Build/uImage-standalone
+	$(eval compression_method=$(word 1,$(1)))
+	$(eval loadaddr=$(word 2,$(1)))
+	$(eval entryaddr=$(word 3,$(1)))
+	mkimage -A $(LINUX_KARCH) -O linux -T standalone \
+		-C $(compression_method) -a $(loadaddr) -e $(entryaddr) \
+		-d $@ $@.new
+	mv $@.new $@
+endef
+
 define Build/multiImage
 	$(if $(UIMAGE_TIME),SOURCE_DATE_EPOCH="$(UIMAGE_TIME)") \
 	mkimage \

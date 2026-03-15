@@ -351,11 +351,12 @@
 
 	pcie@0,0 {
 		reg = <0x0000 0 0 0 0>;
+		#address-cells = <3>;
+		#size-cells = <2>;
 
 		mt7992@0,0 {
 			compatible = "mediatek,mt76";
 			reg = <0x0000 0 0 0 0>;
-			device_type = "pci";
 
 			nvmem-cells = <&eeprom_factory_0>;
 			nvmem-cell-names = "eeprom";

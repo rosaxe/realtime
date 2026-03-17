@@ -3270,7 +3270,6 @@ define Device/wavlink_halo_base_pro
   DEVICE_MODEL := Halo Base Pro
   KERNEL := kernel-bin | append-dtb | lzma | uImage lzma | pad-to 64k
   DEVICE_PACKAGES := kmod-mt7603 kmod-mt7615-firmware kmod-mt7663-firmware-ap
-  SUPPORTED_DEVICES += wavlink,halo-base-pro
 endef
 TARGET_DEVICES += wavlink_halo_base_pro
 

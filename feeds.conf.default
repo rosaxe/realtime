@@ -1,8 +1,8 @@
-src-git packages https://git.openwrt.org/feed/packages.git
-src-git luci https://git.openwrt.org/project/luci.git
-src-git routing https://git.openwrt.org/feed/routing.git
-src-git telephony https://git.openwrt.org/feed/telephony.git
-#src-git video https://github.com/openwrt/video.git
-#src-git targets https://github.com/openwrt/targets.git
-#src-git oldpackages http://git.openwrt.org/packages.git
-#src-link custom /usr/src/openwrt/custom-feed
+src-git passwall_packages https://github.com/rosaxe/openwrt-passwall-packages.git^0d16b37cb37c7a5a22f401b01932521d04ca2273
+src-git passwall_luci https://github.com/rosaxe/openwrt-passwall.git^4353cefac9d4ddfb795337cef18826f1aba15ffb
+src-git packages https://github.com/rosaxe/packages.git^0c0d897b47ef98781277305d09eadf79b6bb6fe0
+src-git luci https://github.com/rosaxe/luci.git^7cb2f6584b96d8bbcfa4846a88731d9bc521bd60
+src-git routing https://github.com/rosaxe/routing.git^5998119c5530fbd4ab844edee3c4da0ea4fec924
+src-git telephony https://github.com/rosaxe/telephony.git^2933d0084f0331fd7da1e2181ba64954a0c84199
+#src-git helloworld https://github.com/rosaxe/helloworld.git^afd5a384ea88a805e56ca4d42d99f7a5489375b1
+#src-git OpenAppFilter https://github.com/rosaxe/OpenAppFilter.git^76f97d37dd0ead72f0d7795cf6523009924712ee
